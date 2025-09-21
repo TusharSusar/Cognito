@@ -5,17 +5,16 @@ import { IoSend } from "react-icons/io5";
 import { ChatContext } from "../context/context";
 
 function InputBar() {
-  const { input,setInput,setMessages, getResponse } = useContext(ChatContext);
-  
+  const { input, setInput, setMessages, getResponse, chatid, createNewChat } =
+    useContext(ChatContext);
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    setMessages((prev)=> ([
-      ...prev,
-      input
-    ]))
-    if(!input.trim()) return; 
-    getResponse()
+    setMessages((prev) => [...prev, input]);
+    if (!input.trim()) return;
+    getResponse();
     console.log("Submitted :", input);
+    setInput("")
   };
   return (
     <section className="w-full flex items-center justify-center">

@@ -27,13 +27,13 @@ function Chatbox() {
   // getChatMsg()
 
   return (
-    <section className="w-full flex-1 px-8 sm:px-16 md:px-24 lg:px-40 xl:px-64">
+    <section className="w-full flex-1 px-4 sm:px-16 md:px-24 lg:px-40 xl:px-80">
       {messages?.map((msg) => (
         <div
           key={msg.id}
           className={`text-text my-2 flex justify-end ${msg.sender === "ai" && "ai-bubble my-2 flex justify-start"}`}
         >
-          <span className={`px-4 py-2 my-1 ${msg.sender === "user" ? "user-bubble border border-[#00BFFF] font-semibold bg-user-bubble rounded-l-2xl rounded-t-2xl" : "ai-bubble rounded-r-2xl rounded-t-2xl"}`}><Typewriter text={msg.text} speed={25} onceKey={msg.id} /></span>
+          <span className={`px-4 py-2 my-1 ${msg.sender === "user" ? "user-bubble border border-[#00BFFF] font-semibold bg-user-bubble rounded-l-2xl rounded-t-2xl" : "ai-bubble rounded-r-2xl rounded-t-2xl"}`}>{msg.sender=== 'ai' ? <Typewriter text={msg.text} speed={25} onceKey={msg.id} /> : msg.text}</span>
         </div>
       ))}
       {

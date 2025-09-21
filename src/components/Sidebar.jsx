@@ -20,7 +20,7 @@ function Sidebar() {
   }, []);
 
   return (
-    <section className="md:inline md:w-60 h-full border-r flex border-border">
+    <section className="hidden md:inline md:w-60 h-full  border-r border-border">
       <div className="logo flex items-center border-b border-b-border">
         <img src={logo} alt="Logo" className="w-15 h-15" />
         <h1 className="text-text text-lg font-bold">

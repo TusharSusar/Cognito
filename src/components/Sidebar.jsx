@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import { FiEdit } from "react-icons/fi";
-import logo from "../assets/cognito Logo.png";
+import logo from "../assets/logo1.png";
 import { RiChatHistoryFill } from "react-icons/ri";
 import { MdHelpOutline } from "react-icons/md";
 import { IoIosSettings } from "react-icons/io";
@@ -14,7 +14,7 @@ function Sidebar({ isActive, setIsActive }) {
   const [chats, setChats] = useState([]);
   const { createNewChat, onSelectChat } = useContext(ChatContext);
 
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   useEffect(() => {
     const output = onSnapshot(collection(db, "chats"), (chat) => {
@@ -24,11 +24,28 @@ function Sidebar({ isActive, setIsActive }) {
   }, []);
 
   const handleSelect = (chat) => {
-    onSelectChat(chat.id)
-    navigate(`/chat/${chat.id}`)
-    console.log("Hi");
-    
-  }
+    onSelectChat(chat.id);
+    navigate(`/chat/${chat.id}`);
+    console.log("under select Function....");
+  };
+
+  // const formatTimestamp = (timestamp) => {
+  //   if (!timestamp?.toDate) return "";
+
+  //   const date = timestamp.toDate();
+  //   const now = new Date();
+  //   const diffInMs = now - date;
+  //   const diffInHours = diffInMs / (1000 * 60 * 60);
+  //   const diffInDays = diffInMs / (1000 * 60 * 60 * 24);
+
+  //   if (diffInHours < 24) {
+  //     return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+  //   } else if (diffInDays < 7) {
+  //     return date.toLocaleDateString([], { weekday: 'short' });
+  //   } else {
+  //     return date.toLocaleDateString([], { month: 'short', day: 'numeric' });
+  //   }
+  // };
 
   return (
     <>
@@ -72,13 +89,15 @@ function Sidebar({ isActive, setIsActive }) {
             : "w-0 bg-bacground overflow-hidden"
         } md:static md:w-60 md:block h-full border-r border-border transition-all duration-300 ease-in-out`}
       >
-        <div className="logo flex items-center border-b border-b-border p-4">
-          <img src={logo} alt="Logo" className="w-8 h-8 mr-2" />
-          <h1 className="text-text text-lg font-bold">
-            <a href="http://" target="_blank" rel="noopener noreferrer">
-              Cognito
-            </a>
-          </h1>
+        <div className="logo flex items-center justify-between border-b border-b-border p-4">
+          <div className="logo-cap flex items-center">
+            <img src={logo} alt="Logo" className="w-8 h-8 mr-2" />
+            <h1 className="text-text text-lg font-bold">
+              <a href="http://" target="_blank" rel="noopener noreferrer">
+                Cognito
+              </a>
+            </h1>
+          </div>
           <div
             onClick={() => setIsActive(false)}
             className="p-2 hover:bg-item-hover rounded-full cursor-pointer md:hidden"
@@ -124,20 +143,33 @@ function Sidebar({ isActive, setIsActive }) {
 
           {/* Chat list with proper scrolling */}
           <div className="chatlist flex-1 overflow-y-auto min-h-0 custom-scrollbar">
-            <ul className="space-y-2">
+            <ul className="space-y-1">
               {chats.map((chat) => (
                 <li
                   key={chat.id}
-                  className="p-2 hover:bg-item-hover cursor-pointer rounded-md transition-colors"
-                  onClick={()=>handleSelect(chat)}
+                  className="p-1.5 hover:bg-item-hover cursor-pointer rounded-md transition-colors group"
+                  onClick={() => handleSelect(chat)}
                 >
-                  <div className="text-sm font-medium text-text truncate">
-                    {chat.data().title || "Untitled Chat"}
-                  </div>
-                  <div className="text-xs text-gray-400 mt-1">
-                    {chat.timestamp?.toDate
-                      ? chat.timestamp.toDate().toLocaleString()
-                      : ""}
+                  <div className="flex items-start justify-between">
+                    <div className="flex-1 min-w-0">
+                      <div className="text-sm font-medium text-text truncate">
+                        {chat.data().title || "Untitled Chat"}
+                      </div>
+                      {/* <div className="text-xs text-gray-400 mt-1">
+                    {formatTimestamp(chat.data().timestamp)}
+                  </div> */}
+                    </div>
+                    <div className="opacity-0 group-hover:opacity-100 transition-opacity ml-2">
+                      <button className="text-gray-400 hover:text-gray-300 p-1">
+                        <svg
+                          className="w-3 h-3"
+                          fill="currentColor"
+                          viewBox="0 0 20 20"
+                        >
+                          <path d="M10 6a2 2 0 110-4 2 2 0 010 4zM10 12a2 2 0 110-4 2 2 0 010 4zM10 18a2 2 0 110-4 2 2 0 010 4z" />
+                        </svg>
+                      </button>
+                    </div>
                   </div>
                 </li>
               ))}

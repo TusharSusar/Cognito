@@ -14,8 +14,8 @@ const router = createBrowserRouter([
     element:<ChatArea/>
   },
   {
-    path:'/chat/:chatid',
-    element:<ChatContainer/>
+    path:'/chat/:cid',
+    element:<ChatArea/>
   }
 ])
 

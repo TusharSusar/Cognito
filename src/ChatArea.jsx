@@ -1,12 +1,32 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import Sidebar from "./components/Sidebar";
 import InputBar from "./components/InputBar";
 import Chatbox from "./components/Chatbox";
 import Tip from "./components/Tip";
 import Navbar from "./components/Navbar";
+import { AuthContext } from "./context/context";
+import { ScaleLoader } from "react-spinners";
 
 const ChatArea = () => {
   const[isActive,setIsActive] = useState(false)
+  const { user } = useContext(AuthContext);
+
+  // safely parse session storage
+  let authorizeduser = null;
+  try {
+    authorizeduser = JSON.parse(sessionStorage.getItem("user"));
+  } catch (err) {
+    authorizeduser = null;
+  }
+  
+  if (!authorizeduser && user === null) {
+    return (
+      <div className="w-full h-screen flex items-center justify-center bg-bacground">
+        <ScaleLoader color="#0CAFFF" size={24} />
+      </div>
+    );
+  }
+
   return (
     <main className="w-full h-dvh max-h-dvh flex bg-bacground">
       <Sidebar isActive={isActive} setIsActive={setIsActive}/>

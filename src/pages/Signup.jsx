@@ -4,42 +4,47 @@ import { AuthContext } from "../context/context";
 import { auth } from "../components/firebase";
 import { NavLink, useNavigate } from "react-router-dom";
 
-export default function Signin() {
-  const { login } = useContext(AuthContext);
-
-  const { user } = useContext(AuthContext);
-
+export default function Signup() {
   const navigate = useNavigate()
+  const { registerNewUser, user } = useContext(AuthContext);
 
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [pass, setPass] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const loggedUser = login(email, pass);
-    if(loggedUser!==null) navigate("/chat")
+    await registerNewUser(email, pass, name);
+    navigate("/chat")
   };
 
   return (
     <div className="flex items-center justify-center sm:flex-col md:flex-row min-h-screen bg-[var(--color-bacground)] text-[var(--color-text)]">
       {/* 2. Left Login Panel - Responsive width and dark theme */}
-      {/* sm:p-6 for mobile padding, md:w-1/2 for desktop width */}
       <div className="w-full md:w-1/2 max-w-md px-10 sm:px-6 flex flex-col justify-center py-12 md:px-10 md:py-0 md:border-r border-[var(--color-border)]">
-        {/* Brand Logo - Updated text color */}
-        {/* Original: text-gray-900 | New: text-[var(--color-primary)] */}
         <div className="flex items-center space-x-2 text-[var(--color-primary)] font-semibold mb-6 text-xl">
           <span>LexiPro</span>
         </div>
 
-        {/* Headings - Updated text color */}
-        <h1 className="text-3xl font-bold mb-2 text-white">Welcome back</h1>
+        <h1 className="text-3xl font-bold mb-2 text-white">Welcome Developer,</h1>
         <p className="text-[var(--color-text)]/70 mb-8">
-          Sign in to continue your conversation
+          Create your free account to start your conversations
         </p>
 
         {/* Form Section */}
         <form onSubmit={handleSubmit} className="space-y-6">
-          {/* Email Input */}
+          {/* Name Input */}
+          <div>
+            <label className="block text-sm text-[var(--color-text)]/70 mb-1">
+              Name
+            </label>
+            <input
+              type="text"
+              placeholder="Enter Name"
+              onChange={(e) => setName(e.target.value)}
+              className="w-full p-3 border border-[var(--color-border)] rounded-md bg-[var(--color-input-bg)] text-[var(--color-text)] focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]"
+            />
+          </div>
           <div>
             <label className="block text-sm text-[var(--color-text)]/70 mb-1">
               Username or email
@@ -79,10 +84,9 @@ export default function Signin() {
           </div>
 
           {/* Sign In Button */}
-          {/* Original: bg-indigo-600 | New: bg-[var(--color-primary)] */}
           <button
             type="submit"
-            className="w-full bg-[var(--color-primary)] text-white p-3 rounded-md hover:bg-opacity-80 transition"
+            className="w-full bg-[var(--color-primary)] text-white font-semibold p-3 rounded-md hover:bg-opacity-80 transition cursor-pointer hover:bg-[#1E90FF]"
           >
             Sign in
           </button>
@@ -115,7 +119,7 @@ export default function Signin() {
         <p className="text-center text-[var(--color-text)]/50 text-xs mt-6">
           Don’t have an account?{" "}
           <NavLink
-            to="/signup"
+            to="/"
             className="underline font-semibold text-[var(--color-primary)] hover:text-white transition"
           >
             Create one

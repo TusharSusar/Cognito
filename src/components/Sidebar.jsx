@@ -9,18 +9,27 @@ import { db } from "./firebase";
 import { ChatContext } from "../context/context";
 import Menu from "./UI/Menu";
 import { useNavigate } from "react-router-dom";
+import { HashLoader } from "react-spinners";
+import ProfileBar from "./ProfileBar";
 
 function Sidebar({ isActive, setIsActive }) {
   const [chats, setChats] = useState([]);
   const { createNewChat, onSelectChat } = useContext(ChatContext);
+  const [isCapsuleLoading, setIsCapsuleLoading] = useState(true);
 
   const navigate = useNavigate();
 
   useEffect(() => {
-    const output = onSnapshot(collection(db, "chats"), (chat) => {
-      setChats(chat.docs);
-      console.log(chat.docs);
-    });
+    try {
+      onSnapshot(collection(db, "chats"), (chat) => {
+        setChats(chat.docs);
+        // console.log(chat.docs);
+      });
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsCapsuleLoading(false);
+    }
   }, []);
 
   const handleSelect = (chat) => {
@@ -85,16 +94,17 @@ function Sidebar({ isActive, setIsActive }) {
       <section
         className={`${
           isActive
-            ? "fixed left-0 top-0 w-80 z-50 bg-bacground"
-            : "w-0 bg-bacground overflow-hidden"
-        } md:static md:w-60 md:block h-full border-r border-border transition-all duration-300 ease-in-out`}
+            ? "fixed left-0 top-0 w-80 h-full z-50 bg-bacground flex flex-col"
+            : "w-0 overflow-hidden"
+        } md:static md:w-60 md:h-full md:flex md:flex-col border-r border-border transition-all duration-300 ease-in-out`}
       >
-        <div className="logo flex items-center justify-between border-b border-b-border p-4">
+        {/* Logo */}
+        <div className="logo flex items-center justify-between border-b border-b-border p-4 flex-shrink-0">
           <div className="logo-cap flex items-center">
             <img src={logo} alt="Logo" className="w-8 h-8 mr-2" />
             <h1 className="text-text text-lg font-bold">
               <a href="http://" target="_blank" rel="noopener noreferrer">
-                Cognito
+                LexiPro
               </a>
             </h1>
           </div>
@@ -106,84 +116,75 @@ function Sidebar({ isActive, setIsActive }) {
           </div>
         </div>
 
-        <main className="w-full h-full flex flex-col p-3 custom-scrollbar">
-          <div className="top-container w-full mb-4">
+        {/* Main content */}
+        <main className="flex-1 flex flex-col p-3 overflow-hidden custom-scrollbar">
+          {/* Search and top actions */}
+          <div className="top-container flex-shrink-0 mb-4">
             <input
               type="search"
-              name="search"
               placeholder="Search Chats"
-              autoComplete="off"
               className="w-full px-3 py-2 text-text bg-input-bg focus:bg-black border border-transparent focus:border-border outline-none rounded-md transition-colors"
             />
-
             <ul className="text-text mt-4 space-y-1">
               <li
                 onClick={() => createNewChat()}
                 className="sidebaritem text-primary flex items-center gap-2 p-2 hover:bg-item-hover cursor-pointer rounded-md transition-colors"
               >
-                <span className="text-lg">
-                  <FiEdit />
-                </span>
+                <FiEdit className="text-lg" />
                 New Chat
               </li>
               <li className="sidebaritem flex items-center gap-2 p-2 hover:bg-item-hover cursor-pointer rounded-md transition-colors">
-                <span className="text-lg">
-                  <RiChatHistoryFill />
-                </span>
+                <RiChatHistoryFill className="text-lg" />
                 Chats
               </li>
               <li className="sidebaritem flex items-center gap-2 p-2 hover:bg-item-hover cursor-pointer rounded-md transition-colors">
-                <span className="text-lg">
-                  <MdHelpOutline />
-                </span>
+                <MdHelpOutline className="text-lg" />
                 Help
               </li>
             </ul>
           </div>
 
-          {/* Chat list with proper scrolling */}
-          <div className="chatlist flex-1 overflow-y-auto min-h-0 custom-scrollbar">
-            <ul className="space-y-1">
-              {chats.map((chat) => (
-                <li
-                  key={chat.id}
-                  className="p-1.5 hover:bg-item-hover cursor-pointer rounded-md transition-colors group"
-                  onClick={() => handleSelect(chat)}
-                >
-                  <div className="flex items-start justify-between">
-                    <div className="flex-1 min-w-0">
-                      <div className="text-sm font-medium text-text truncate">
-                        {chat.data().title || "Untitled Chat"}
+          {/* Chat list */}
+          <div className="flex-1 overflow-y-auto custom-scrollbar">
+            {isCapsuleLoading ? (
+              <div className="flex justify-center items-center h-full">
+                <HashLoader color="#0CAFFF" size={24} />
+              </div>
+            ) : (
+              <ul className="space-y-1">
+                {chats.map((chat) => (
+                  <li
+                    key={chat.id}
+                    className="p-1.5 hover:bg-item-hover cursor-pointer rounded-md transition-colors group"
+                    onClick={() => handleSelect(chat)}
+                  >
+                    <div className="flex items-start justify-between">
+                      <div className="flex-1 min-w-0">
+                        <div className="text-sm font-medium text-text truncate">
+                          {chat.data().title || "Untitled Chat"}
+                        </div>
                       </div>
-                      {/* <div className="text-xs text-gray-400 mt-1">
-                    {formatTimestamp(chat.data().timestamp)}
-                  </div> */}
+                      <div className="opacity-0 group-hover:opacity-100 transition-opacity ml-2">
+                        <button className="text-gray-400 hover:text-gray-300 p-1">
+                          <svg
+                            className="w-3 h-3"
+                            fill="currentColor"
+                            viewBox="0 0 20 20"
+                          >
+                            <path d="M10 6a2 2 0 110-4 2 2 0 010 4zM10 12a2 2 0 110-4 2 2 0 010 4zM10 18a2 2 0 110-4 2 2 0 010 4z" />
+                          </svg>
+                        </button>
+                      </div>
                     </div>
-                    <div className="opacity-0 group-hover:opacity-100 transition-opacity ml-2">
-                      <button className="text-gray-400 hover:text-gray-300 p-1">
-                        <svg
-                          className="w-3 h-3"
-                          fill="currentColor"
-                          viewBox="0 0 20 20"
-                        >
-                          <path d="M10 6a2 2 0 110-4 2 2 0 010 4zM10 12a2 2 0 110-4 2 2 0 010 4zM10 18a2 2 0 110-4 2 2 0 010 4z" />
-                        </svg>
-                      </button>
-                    </div>
-                  </div>
-                </li>
-              ))}
-            </ul>
+                  </li>
+                ))}
+              </ul>
+            )}
           </div>
 
-          {/* Settings at bottom */}
-          <div className="pt-2 border-t border-border">
-            <div className="sidebaritem text-text flex items-center gap-2 p-2 hover:bg-item-hover cursor-pointer rounded-md transition-colors">
-              <span className="text-lg">
-                <IoIosSettings size={20} color="#ffffff" />
-              </span>
-              Settings
-            </div>
+          {/* ProfileBar fixed to bottom */}
+          <div className="flex-shrink-0 mt-2">
+            <ProfileBar />
           </div>
         </main>
       </section>

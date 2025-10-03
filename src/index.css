@@ -12,6 +12,8 @@
     --color-user-bubble: rgba(0, 191, 255, .2);
     --color-ai-bubble: rgba(69, 69, 69, .5);
     --color-input-bg: rgba(69, 69, 69, .5);
+    /* --color-dropdown: rgba(69, 69, 69, 1); */
+    --color-dropdown: #353535;
 }
 
 @layer components {

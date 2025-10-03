@@ -3,6 +3,7 @@ import { useContext, useState } from "react";
 import { AuthContext } from "../context/context";
 import { auth } from "../components/firebase";
 import { NavLink, useNavigate } from "react-router-dom";
+import { IoArrowBackCircleOutline } from "react-icons/io5";
 
 export default function Signup() {
   const navigate = useNavigate()
@@ -19,14 +20,23 @@ export default function Signup() {
   };
 
   return (
-    <div className="flex items-center justify-center sm:flex-col md:flex-row min-h-screen bg-[var(--color-bacground)] text-[var(--color-text)]">
+    <div className="relative flex items-center justify-center sm:flex-col md:flex-row min-h-screen bg-[var(--color-bacground)] text-[var(--color-text)]">
+      <button
+        type="button"
+        className="absolute top-0 left-0 m-2 p-1 md:m-4 md:p-2 rounded-full cursor-pointer hover:bg-input-bg"
+        onClick={() => navigate("/")}
+      >
+        <IoArrowBackCircleOutline size={25} color="#0CAFFF" />
+      </button>
       {/* 2. Left Login Panel - Responsive width and dark theme */}
       <div className="w-full md:w-1/2 max-w-md px-10 sm:px-6 flex flex-col justify-center py-12 md:px-10 md:py-0 md:border-r border-[var(--color-border)]">
         <div className="flex items-center space-x-2 text-[var(--color-primary)] font-semibold mb-6 text-xl">
           <span>LexiPro</span>
         </div>
 
-        <h1 className="text-3xl font-bold mb-2 text-white">Welcome Developer,</h1>
+        <h1 className="text-3xl font-bold mb-2 text-white">
+          Welcome Developer,
+        </h1>
         <p className="text-[var(--color-text)]/70 mb-8">
           Create your free account to start your conversations
         </p>

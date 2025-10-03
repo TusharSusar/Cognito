@@ -3,13 +3,12 @@ import { useContext, useState } from "react";
 import { AuthContext } from "../context/context";
 import { auth } from "../components/firebase";
 import { NavLink, useNavigate } from "react-router-dom";
+import { IoArrowBackCircleOutline } from "react-icons/io5";
 
 export default function Signin() {
   const { login } = useContext(AuthContext);
 
-  const { user } = useContext(AuthContext);
-
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const [email, setEmail] = useState("");
   const [pass, setPass] = useState("");
@@ -17,11 +16,18 @@ export default function Signin() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const loggedUser = login(email, pass);
-    if(loggedUser!==null) navigate("/chat")
+    if (loggedUser !== null) navigate("/chat");
   };
 
   return (
-    <div className="flex items-center justify-center sm:flex-col md:flex-row min-h-screen bg-[var(--color-bacground)] text-[var(--color-text)]">
+    <div className="relative flex items-center justify-center sm:flex-col md:flex-row min-h-screen bg-[var(--color-bacground)] text-[var(--color-text)]">
+      <button
+        type="button"
+        className="absolute top-0 left-0 m-2 p-1 md:m-4 md:p-2 rounded-full cursor-pointer hover:bg-input-bg"
+        onClick={()=> navigate("/")}
+      >
+        <IoArrowBackCircleOutline size={25} color="#0CAFFF" />
+      </button>
       {/* 2. Left Login Panel - Responsive width and dark theme */}
       {/* sm:p-6 for mobile padding, md:w-1/2 for desktop width */}
       <div className="w-full md:w-1/2 max-w-md px-10 sm:px-6 flex flex-col justify-center py-12 md:px-10 md:py-0 md:border-r border-[var(--color-border)]">

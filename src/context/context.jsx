@@ -7,6 +7,7 @@ import {
   serverTimestamp,
   updateDoc,
   doc,
+  setDoc,
 } from "firebase/firestore";
 import {
   createContext,
@@ -16,7 +17,6 @@ import {
   useCallback,
 } from "react";
 import { db } from "../components/firebase";
-import { useNavigate } from "react-router-dom";
 
 export const ChatContext = createContext();
 
@@ -24,7 +24,7 @@ export const ChatProvider = ({ children }) => {
   const [input, setInput] = useState("");
   const [messages, setMessages] = useState([]);
   const [chatid, setChatId] = useState("default");
-  const[loadAiResponse, setLoadAiResponse] = useState(true)
+  const [loadAiResponse, setLoadAiResponse] = useState(true);
 
   //! 🔹 Listen for messages in real-time
   useEffect(() => {
@@ -47,9 +47,9 @@ export const ChatProvider = ({ children }) => {
         contents: [
           {
             parts: [
-              { 
-                text: `Generate a short, descriptive title (max 4-5 words) for a chat that starts with this message: "${firstMessage}". Only return the title, nothing else.` 
-              }
+              {
+                text: `Generate a short, descriptive title (max 4-5 words) for a chat that starts with this message: "${firstMessage}". Only return the title, nothing else.`,
+              },
             ],
           },
         ],
@@ -71,9 +71,9 @@ export const ChatProvider = ({ children }) => {
 
       const data = await res.json();
       const title = data.candidates?.[0]?.content?.parts?.[0]?.text?.trim();
-      
+
       // Clean up the title (remove quotes if present)
-      return title ? title.replace(/['"]/g, '') : null;
+      return title ? title.replace(/['"]/g, "") : null;
     } catch (err) {
       console.error("Error generating chat title:", err);
       return null;
@@ -92,9 +92,12 @@ export const ChatProvider = ({ children }) => {
   }, []);
 
   //!
-  const onSelectChat = useCallback((id) => {
-    setChatId(id);
-  }, [chatid]);
+  const onSelectChat = useCallback(
+    (id) => {
+      setChatId(id);
+    },
+    [chatid]
+  );
 
   //! Getting Ai Response
   const getResponse = useCallback(async () => {
@@ -140,6 +143,7 @@ export const ChatProvider = ({ children }) => {
       const data = await res.json();
       const aiText =
         data.candidates?.[0]?.content?.parts?.[0]?.text || "⚠️ No response";
+      console.log(aiText);
 
       await addDoc(messagesRef, {
         text: aiText,
@@ -151,79 +155,81 @@ export const ChatProvider = ({ children }) => {
     }
   }, [input, chatid]);
 
-  const createNewChatByInput = useCallback(async (userMessage,handleNavigation) => {
-    if (!userMessage.trim()) return;
+  // //! Creating Chat By InputBox
 
-    try {
-      // 1. Create new chat document with temporary title
-      const chatRef = await addDoc(collection(db, "chats"), {
-        title: "New Chat", // Temporary title
-        timestamp: serverTimestamp(),
-      });
+  const createNewChatByInput = useCallback(
+    async (userMessage, handleNavigation) => {
+      if (!userMessage.trim()) return;
 
-      const newChatId = chatRef.id;
-      console.log("Created new chat:", newChatId);
-
-      // 2. Switch to new chat
-      setChatId(newChatId);
-      handleNavigation(newChatId)
-
-      // 3. Add user message to the new chat
-      const messagesRef = collection(db, "chats", newChatId, "messages");
-      await addDoc(messagesRef, {
-        text: userMessage,
-        sender: "user",
-        timestamp: serverTimestamp(),
-      });
-
-      // 4. Generate AI title based on first message
-      const generatedTitle = await generateChatTitle(userMessage);
-      if (generatedTitle) {
-        const chatDocRef = doc(db, "chats", newChatId);
-        await updateDoc(chatDocRef, {
-          title: generatedTitle
+      try {
+        // 1. Create new chat document with temporary title
+        const chatRef = await addDoc(collection(db, "chats"), {
+          title: "New Chat", // Temporary title
+          timestamp: serverTimestamp(),
         });
+
+        const newChatId = chatRef.id;
+        console.log("Created new chat:", newChatId);
+
+        // 2. Switch to new chat
+        setChatId(newChatId);
+        handleNavigation(newChatId);
+
+        // 3. Add user message to the new chat
+        const messagesRef = collection(db, "chats", newChatId, "messages");
+        await addDoc(messagesRef, {
+          text: userMessage,
+          sender: "user",
+          timestamp: serverTimestamp(),
+        });
+
+        // 4. Generate AI title based on first message
+        const generatedTitle = await generateChatTitle(userMessage);
+        if (generatedTitle) {
+          const chatDocRef = doc(db, "chats", newChatId);
+          await updateDoc(chatDocRef, { title: generatedTitle });
+        }
+
+        // 5. Get AI response
+        const payload = {
+          contents: [
+            {
+              parts: [{ text: userMessage }],
+            },
+          ],
+        };
+
+        const url = `https://generativelanguage.googleapis.com/v1beta/models/${
+          import.meta.env.VITE_GEMINI_MODEL
+        }:generateContent?key=${import.meta.env.VITE_GEMINI_API_KEY}`;
+
+        const res = await fetch(url, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload),
+        });
+
+        if (!res.ok) {
+          const text = await res.text();
+          console.error("API Error:", res.status, text);
+          return;
+        }
+
+        const data = await res.json();
+        const aiText =
+          data.candidates?.[0]?.content?.parts?.[0]?.text || "⚠️ No response";
+
+        await addDoc(messagesRef, {
+          text: aiText,
+          sender: "ai",
+          timestamp: serverTimestamp(),
+        });
+      } catch (err) {
+        console.error("Error creating new chat:", err);
       }
-
-      // 5. Get AI response
-      const payload = {
-        contents: [
-          {
-            parts: [{ text: userMessage }],
-          },
-        ],
-      };
-
-      const url = `https://generativelanguage.googleapis.com/v1beta/models/${
-        import.meta.env.VITE_GEMINI_MODEL
-      }:generateContent?key=${import.meta.env.VITE_GEMINI_API_KEY}`;
-
-      const res = await fetch(url, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
-      });
-
-      if (!res.ok) {
-        const text = await res.text();
-        console.error("API Error:", res.status, text);
-        return;
-      }
-
-      const data = await res.json();
-      const aiText =
-        data.candidates?.[0]?.content?.parts?.[0]?.text || "⚠️ No response";
-
-      await addDoc(messagesRef, {
-        text: aiText,
-        sender: "ai",
-        timestamp: serverTimestamp(),
-      });
-
-    } catch (err) {
-      console.error("Error creating new chat:", err);
-    }
-  }, [generateChatTitle]);
+    },
+    [generateChatTitle]
+  );
 
   //! 🔹 Memoize context value to prevent unnecessary re-renders
   const contextValue = useMemo(
@@ -238,12 +244,144 @@ export const ChatProvider = ({ children }) => {
       onSelectChat,
       chatid,
       loadAiResponse,
-      setLoadAiResponse
+      setLoadAiResponse,
     }),
-    [input, messages, chatid, getResponse, createNewChat, createNewChatByInput, onSelectChat]
+    [
+      input,
+      messages,
+      chatid,
+      getResponse,
+      createNewChat,
+      createNewChatByInput,
+      onSelectChat,
+    ]
   );
 
   return (
     <ChatContext.Provider value={contextValue}>{children}</ChatContext.Provider>
+  );
+};
+
+import { auth } from "../components/firebase";
+import {
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  signOut,
+  updateProfile,
+  onAuthStateChanged,
+} from "firebase/auth";
+
+export const AuthContext = createContext();
+
+export const AuthProvider = ({ children }) => {
+  const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  //! Keep user logged in across refresh
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (firebaseUser) => {
+      if (firebaseUser) {
+        const userData = {
+          uid: firebaseUser.uid,
+          email: firebaseUser.email,
+          name: firebaseUser.displayName,
+        };
+        setUser(userData);
+        sessionStorage.setItem("user", JSON.stringify(userData));
+      } else {
+        setUser(null);
+        sessionStorage.removeItem("user");
+      }
+      setLoading(false);
+    });
+
+    return () => unsubscribe();
+  }, []);
+
+  //! Login
+  const login = async (email, password) => {
+    try {
+      const res = await signInWithEmailAndPassword(auth, email, password);
+      const loggedInUser = res.user;
+
+      const userData = {
+        uid: loggedInUser.uid,
+        email: loggedInUser.email,
+        name: loggedInUser.displayName,
+      };
+
+      setUser(userData);
+      sessionStorage.setItem("user", JSON.stringify(userData));
+
+      console.log("Login Success:", loggedInUser.email);
+      return userData;
+    } catch (error) {
+      console.error("Login Error:", error.code, error.message);
+      if (error.code === "auth/wrong-password") {
+        alert("Invalid password. Please try again.");
+      } else if (error.code === "auth/user-not-found") {
+        alert("No account found with that email address.");
+      } else {
+        alert(`Login failed: ${error.message}`);
+      }
+      throw error;
+    }
+  };
+
+  //! Register
+  const registerNewUser = async (email, pass, name) => {
+    try {
+      const userCredential = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        pass
+      );
+
+      await updateProfile(userCredential.user, { displayName: name });
+
+      const newUser = {
+        uid: userCredential.user.uid,
+        email: userCredential.user.email,
+        name: name,
+      };
+
+      setUser(newUser);
+      sessionStorage.setItem("user", JSON.stringify(newUser));
+
+      // Save in Firestore
+      await addDoc(collection(db, "Users"), {
+        useremail: email,
+        username: name,
+        lastLoginAt: serverTimestamp(),
+      });
+
+      console.log("New user registered:", newUser);
+      return newUser;
+    } catch (error) {
+      console.error("Registration Error:", error.code, error.message);
+      if (error.code === "auth/weak-password") {
+        alert("The password is too weak. It must be at least 6 characters.");
+      } else if (error.code === "auth/email-already-in-use") {
+        alert("An account already exists with this email address.");
+      } else {
+        alert(`Registration failed: ${error.message}`);
+      }
+      throw error;
+    }
+  };
+
+  //! Logout
+  const logout = async () => {
+    await signOut(auth);
+    sessionStorage.removeItem("user");
+    setUser(null);
+  };
+
+  return (
+    <AuthContext.Provider
+      value={{ user, setUser, login, registerNewUser, logout, loading }}
+    >
+      {children}
+    </AuthContext.Provider>
   );
 };

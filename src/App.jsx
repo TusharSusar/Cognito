@@ -5,6 +5,7 @@ import ChatArea from "./ChatArea";
 import Signin from "./pages/Signin";
 import Signup from "./pages/Signup";
 import { ProtectedRoute, PublicRoute } from "./auth/auth";
+import UpgradePlan from "./pages/UpgradePlans";
 
 const router = createBrowserRouter([
   {
@@ -25,24 +26,12 @@ const router = createBrowserRouter([
       { path: "/signup", element: <Signup /> },
     ],
   },
+  {
+    path:"/upgrade",
+    element:<UpgradePlan/>
+  }
 ]);
-// {
-//   path:'/chat',
-//   element:<ChatArea/>
-// },
-// {
-//   path:'/chat/:cid',
-//   element:<ChatArea/>
-// },
-// {
-//   path:'/signin',
-//   element:<Signin/>
-// },
-// {
-//   path:'/signup',
-//   element:<Signup/>
-// },
-// ])
+
 
 function App() {
   return <RouterProvider router={router} />;

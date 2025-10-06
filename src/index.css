@@ -4,9 +4,10 @@
     --color-primary: #0CAFFF;
     --color-secondary: rgba(9, 143, 204, .5);
     --color-bacground: #000;
+    --color-sec-bg: rgba(69, 69, 69, .5);
     --color-border: rgba(255, 255, 255, .2);
     --color-text: #f1f1f1;
-    --color-input-bg:#000;
+    --color-input-bg: #000;
     --color-responce-bg: #ccc;
     --color-item-hover: rgba(69, 69, 69, .4);
     --color-user-bubble: rgba(0, 191, 255, .2);
@@ -20,4 +21,12 @@
     .sidebaritem {
         @apply flex items-center px-2 py-2 gap-2 rounded-md hover:bg-item-hover cursor-pointer;
     }
+}
+
+@layer base {
+  body {
+    /* font-family: 'Roboto', sans-serif; */
+    /* font-family: 'JetBrains Mono', monospace; */
+    font-family: "Open Sans", sans-serif;
+  }
 }

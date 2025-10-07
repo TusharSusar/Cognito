@@ -143,7 +143,7 @@ const Home = () => {
       <MainNavbar />
 
       {/* Main Content */}
-      <main className="pt-20">
+      <main className="pt-5">
         {/* Hero Section */}
        <HeroSection/>
 

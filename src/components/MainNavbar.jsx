@@ -63,13 +63,13 @@ function MainNavbar() {
 
   return (
     <header
-      className={`fixed top-0 w-full z-50 bg-transparent bg-clip-padding backdrop-blur-xl border-transparent transition-all duration-300 ${
+      className={`fixed top-0 left-0 w-full z-50 bg-transparent bg-clip-padding backdrop-blur-xl  transition-all duration-300 border-b border-border ${
         isScrolled
           ? "backdrop-blur-xl border-b border-white/20"
           : "border-b border-red-200/20"
       }`}
     >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
         <div className="flex justify-between items-center py-4">
           {/* Logo and Brand */}
           <div className="flex items-center justify-center space-x-3">

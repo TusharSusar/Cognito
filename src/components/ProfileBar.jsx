@@ -3,6 +3,7 @@ import { IoSettingsSharp, IoStarHalf } from "react-icons/io5";
 import { LuLogOut } from "react-icons/lu";
 import { TbCirclesRelation, TbHelpHexagonFilled } from "react-icons/tb";
 import { AuthContext } from "../context/context";
+import { NavLink } from "react-router-dom";
 
 function ProfileBar() {
   const authorizeduser = JSON.parse(sessionStorage.getItem("user"));
@@ -43,12 +44,14 @@ const ProfileDropdown = ({ email }) => {
   return (
     <ul className="absolute right-0 bottom-full mb-2 p-1 w-full bg-dropdown shadow-lg rounded-lg py-2 text-sm z-50">
       <li className="px-4 py-2 text-text/50">{email}</li>
-      <li className="px-4 py-2 flex items-center rounded-md hover:bg-black/30 select-none cursor-pointer">
-        <span className="pr-3">
-          <IoStarHalf />
-        </span>{" "}
-        Upgrade plan
-      </li>
+      <NavLink to="/upgrade">
+        <li className="px-4 py-2 flex items-center rounded-md hover:bg-black/30 select-none cursor-pointer">
+          <span className="pr-3">
+            <IoStarHalf />
+          </span>
+          Upgrade plan
+        </li>
+      </NavLink>
       <li className="px-4 py-2 flex items-center rounded-md hover:bg-black/30 cursor-pointer">
         <span className="pr-3">
           <TbCirclesRelation />

@@ -6,9 +6,11 @@ import Tip from "./components/Tip";
 import Navbar from "./components/Navbar";
 import { AuthContext } from "./context/context";
 import { ScaleLoader } from "react-spinners";
+import SearchChats from "./components/SearchChats";
 
 const ChatArea = () => {
   const[isActive,setIsActive] = useState(false)
+  const [isSerachActive,setSearchActive] = useState(false)
   const { user } = useContext(AuthContext);
 
   // safely parse session storage
@@ -29,12 +31,13 @@ const ChatArea = () => {
 
   return (
     <main className="w-full h-dvh max-h-dvh flex bg-bacground">
-      <Sidebar isActive={isActive} setIsActive={setIsActive}/>
+      <Sidebar isActive={isActive} setIsActive={setIsActive} setSearchActive={setSearchActive} />
       <section className="flex-1 flex flex-col p-3">
         <Navbar setIsActive={setIsActive}/>
         <Chatbox/>
         <InputBar />
         <Tip/>
+        {isSerachActive && <SearchChats setSearchActive={setSearchActive}/>}
       </section>
     </main>
   );

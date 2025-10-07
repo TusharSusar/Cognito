@@ -1,7 +1,7 @@
 import React from "react";
 import { useContext, useState } from "react";
 import { AuthContext } from "../context/context";
-import { auth } from "../components/firebase";
+import { auth } from "../Firebase/firebase";
 import { NavLink, useNavigate } from "react-router-dom";
 import { IoArrowBackCircleOutline } from "react-icons/io5";
 

@@ -1,9 +1,8 @@
 import { collection, onSnapshot, orderBy, query } from "firebase/firestore";
 import React, { useContext, useEffect, useState } from "react";
 import { IoIosCloseCircle } from "react-icons/io";
-import { db } from "./firebase";
 import { AuthContext } from "../context/context";
-import { useNavigate } from "react-router-dom";
+import { db } from "../Firebase/firebase";
 
 const SearchChats = ({ setSearchActive }) => {
   const [allChatsTitles, setAllChatsTitles] = useState([]);
@@ -46,29 +45,29 @@ const SearchChats = ({ setSearchActive }) => {
 //   }
 
   return (
-    <section className="fixed top-0 left-0 w-full h-screen flex items-center justify-center bg-bacground/75">
+    <section className="fixed top-0 left-0 w-full h-screen flex items-center justify-center bg-bacground/85">
       <span
         className="absolute top-0 right-0 p-1 m-4 rounded-full cursor-pointer hover:bg-item-hover"
         onClick={() => setSearchActive()}
       >
         <IoIosCloseCircle size={35} color="#0CAFFF" />
       </span>
-      <div className="modal lg:w-1/2 h-1/2 p-4 rounded-lg border border-border bg-sec-bg relative flex flex-col">
+      <div className="modal lg:w-1/2 h-1/2 px-4 py-6 rounded-lg border border-border bg-bacground shadow-[0px_8px_50px_-4px_rgba(8,_112,_184,_0.7)] relative flex flex-col">
         <input
           type="search"
           placeholder="Search Chats"
           onChange={(e) => setSeachInput(e.target.value)}
-          className="w-full px-3 py-4 text-text bg-black border border-transparent focus:border-primary outline-none rounded-md transition-colors"
+          className="w-full px-3 py-4 text-text bg-sec-bg border border-transparent focus:bg-bacground focus:border-primary outline-none rounded-md transition-colors"
         />
 
         {/* 🔹 Fixed-height scroll area */}
         <div className="flex-1 w-full overflow-y-auto custom-scrollbar mt-4">
-          <ul className="space-y-3">
+          <ul className="space-y-4">
             {filteredChats.map((chat) => (
               <li
                 key={chat.id}
                 onClick={()=>handldeNavigate(chat.id)}
-                className="py-4 px-4 bg-item-hover cursor-pointer rounded-md transition-colors group"
+                className="py-4 px-4 bg-item-hover border border-border cursor-pointer rounded-md transition-colors group"
               >
                 <div className="flex items-start justify-between">
                   <div className="flex-1 min-w-0">

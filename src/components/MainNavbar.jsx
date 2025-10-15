@@ -19,7 +19,7 @@ function MainNavbar() {
       setIsScrolled(window.scrollY > 10);
 
       // Update active section based on scroll position
-      const sections = ["home", "services", "features", "reviews"];
+      const sections = ["home", "services", "pricing"];
       const scrollPosition = window.scrollY + 100;
 
       sections.forEach((section) => {
@@ -63,13 +63,13 @@ function MainNavbar() {
 
   return (
     <header
-      className={`fixed top-0 left-0 w-full z-50 bg-transparent bg-clip-padding backdrop-blur-xl  transition-all duration-300 border-b border-border ${
+      className={`fixed top-0 left-0 w-full z-50 bg-transparent bg-clip-padding backdrop-blur-xl  transition-all duration-300 sm:border-b sm:border-border ${
         isScrolled
           ? "backdrop-blur-xl border-b border-white/20"
           : "border-b border-red-200/20"
       }`}
     >
-      <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center py-4">
           {/* Logo and Brand */}
           <div className="flex items-center justify-center space-x-3">
@@ -84,8 +84,7 @@ function MainNavbar() {
             {[
               { id: "home", label: "Home" },
               { id: "services", label: "Services" },
-              { id: "features", label: "Features" },
-              { id: "reviews", label: "Reviews" },
+              { id: "pricing", label: "Pricing" },
             ].map((item) => (
               <button
                 key={item.id}
@@ -112,7 +111,7 @@ function MainNavbar() {
               </button>
               <button
                 onClick={() => handleAuth("signup")}
-                className="px-6 py-2 bg-cyan-400 text-black rounded-lg hover:bg-cyan-300 transition-all duration-200 transform hover:scale-105 font-medium shadow-lg shadow-cyan-400/25 cursor-pointer"
+                className="px-6 py-2 bg-primary text-black rounded-lg hover:bg-cyan-300 transition-all duration-200 transform font-bold shadow-lg shadow-cyan-400/25 cursor-pointer"
               >
                 Sign Up
               </button>
@@ -173,7 +172,7 @@ function MainNavbar() {
             <div className="border-t border-white/20 pt-3 space-y-3">
               <button
                 onClick={() => handleAuth("signin")}
-                className="block w-full text-left px-4 py-2 text-gray-300 hover:text-cyan-400 transition-colors duration-200 border border-white/20 rounded-lg hover:border-cyan-400/50 cursor-pointer"
+                className="block w-full px-4 py-2 text-gray-300 hover:text-cyan-400 transition-colors duration-200 border border-white/20 rounded-lg hover:border-cyan-400/50 cursor-pointer"
               >
                 Login
               </button>

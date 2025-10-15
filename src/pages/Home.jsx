@@ -143,7 +143,7 @@ const Home = () => {
       <MainNavbar />
 
       {/* Main Content */}
-      <main className="pt-5">
+      <main>
         {/* Hero Section */}
        <HeroSection/>
 
@@ -164,7 +164,7 @@ const Home = () => {
           </div>
 
           {/* Pricing Cards */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+          <div id="pricing" className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
             {PLANS.map((plan) => (
               <div
                 key={plan.id}

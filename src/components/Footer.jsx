@@ -1,4 +1,5 @@
 import React from "react";
+import logo from "../assets/logo1.png"
 
 const Footer = () => {
   return (
@@ -8,9 +9,10 @@ const Footer = () => {
           {/* Brand Column */}
           <div className="col-span-1">
             <div className="flex items-center space-x-3 mb-4">
-              <div className="w-8 h-8 bg-gradient-to-r from-cyan-400 to-blue-500 rounded-lg flex items-center justify-center shadow-lg shadow-cyan-400/25">
+              {/* <div className="w-8 h-8 bg-gradient-to-r from-cyan-400 to-blue-500 rounded-lg flex items-center justify-center shadow-lg shadow-cyan-400/25">
                 <span className="text-black font-bold">C</span>
-              </div>
+              </div> */}
+              <img src={logo} alt="Logo" className="w-14" />
               <span className="text-xl font-bold text-white">Cognito</span>
             </div>
             <p className="text-gray-400 text-sm mb-4">

@@ -19,7 +19,7 @@ export function HeroSection() {
 
 
   return (
-    <section className="relative h-screen flex items-center justify-center overflow-hidden">
+    <section className="relative min-h-screen flex items-center justify-center px-5 overflow-hidden">
       {/* Background gradient effect */}
       <div className="absolute inset-0 bg-gradient-to-br from-primary/20 via-transparent to-secondary/20 pointer-events-none" />
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(12,175,255,0.1),transparent_50%)] pointer-events-none" />
@@ -33,13 +33,13 @@ export function HeroSection() {
         </h1>
 
         {/* Tagline */}
-        <p className="mb-4 text-text/80 text-xl md:text-2xl text-foreground/90 max-w-3xl mx-auto">
+        <p className="mb-4 text-text/60 text-xl md:text-2xl text-foreground/90 max-w-3xl mx-auto">
           Experience the next generation of messaging with AI-powered
           conversations
         </p>
 
         {/* Description */}
-        <p className="mb-12 text-text/50 text-base md:text-lg text-foreground/70 max-w-2xl mx-auto">
+        <p className="mb-12 text-text/40 text-base md:text-lg text-foreground/70 max-w-2xl mx-auto">
           Cognito brings intelligence to your conversations with real-time
           collaboration, seamless media sharing, and personalized AI assistance.
           Connect with anyone, anywhere.
@@ -66,7 +66,7 @@ export function HeroSection() {
         </div>
 
         {/* Stats or Social Proof */}
-        <div className="mt-16 grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto">
+        {/* <div className="mt-16 grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto">
           <div className="p-6 rounded-lg border border-border/50 bg-card/30 backdrop-blur-sm">
             <div className="text-3xl mb-2 text-primary">10M+</div>
             <div className="text-foreground/70">Active Users</div>
@@ -79,7 +79,7 @@ export function HeroSection() {
             <div className="text-3xl mb-2 text-primary">150+</div>
             <div className="text-foreground/70">Countries</div>
           </div>
-        </div>
+        </div> */}
       </div>
     </section>
   );

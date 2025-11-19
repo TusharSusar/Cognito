@@ -6,21 +6,89 @@ import { NavLink, useNavigate } from "react-router-dom";
 import { IoArrowBackCircleOutline } from "react-icons/io5";
 
 export default function Signup() {
-  const navigate = useNavigate()
-  const { registerNewUser, user } = useContext(AuthContext);
+  const navigate = useNavigate();
+  const { registerNewUser } = useContext(AuthContext);
 
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [pass, setPass] = useState("");
+  const [error, setError] = useState({
+    nameerror: "",
+    normal: "",
+    passerror: "",
+  });
+
+  const handlePass = (value) => {
+    setPass(value);
+    if (value.length < 6) {
+      setError((prev) => ({
+        ...prev,
+        passerror: "Password must be at least 6 characters long!",
+      }));
+    } else {
+      setError((prev) => ({ ...prev, passerror: "" }));
+    }
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await registerNewUser(email, pass, name);
-    navigate("/chat")
+
+    // reset errors
+    setError({
+      nameerror: "",
+      normal: "",
+      passerror: "",
+    });
+
+    // Name validation
+    if (name.trim() === "") {
+      setError((prev) => ({
+        ...prev,
+        nameerror: "Name cannot be empty",
+      }));
+      return;
+    }
+
+    // Email validation
+    if (email.trim() === "") {
+      setError((prev) => ({
+        ...prev,
+        normal: "Email is required",
+      }));
+      return;
+    }
+
+    // Password validation
+    if (pass.trim() === "") {
+      setError((prev) => ({
+        ...prev,
+        normal: "Password is required",
+      }));
+      return;
+    }
+
+    if (pass.length < 6) {
+      setError((prev) => ({
+        ...prev,
+        passerror: "Password must be at least 6 characters",
+      }));
+      return;
+    }
+
+    // If all good → create user
+    try {
+      await registerNewUser(email, pass, name);
+      navigate("/chat");
+    } catch (err) {
+      setError((prev) => ({
+        ...prev,
+        normal: err.message,
+      }));
+    }
   };
 
   return (
-    <div className="relative flex items-center justify-center sm:flex-col md:flex-row min-h-screen bg-[var(--color-bacground)] text-[var(--color-text)]">
+    <div className="relative flex items-center justify-center sm:flex-col md:flex-row h-dvh sm:min-h-screen bg-[var(--color-bacground)] text-[var(--color-text)]">
       <button
         type="button"
         className="absolute top-0 left-0 m-2 p-1 md:m-4 md:p-2 rounded-full cursor-pointer hover:bg-input-bg"
@@ -31,7 +99,7 @@ export default function Signup() {
       {/* 2. Left Login Panel - Responsive width and dark theme */}
       <div className="w-full md:w-1/2 max-w-md px-10 sm:px-6 flex flex-col justify-center py-12 md:px-10 md:py-0 md:border-r border-[var(--color-border)]">
         <div className="flex items-center space-x-2 text-[var(--color-primary)] font-semibold mb-6 text-xl">
-          <span>LexiPro</span>
+          <span>Cognito</span>
         </div>
 
         <h1 className="text-3xl font-bold mb-2 text-white">
@@ -54,6 +122,9 @@ export default function Signup() {
               onChange={(e) => setName(e.target.value)}
               className="w-full p-3 border border-[var(--color-border)] rounded-md bg-[var(--color-input-bg)] text-[var(--color-text)] focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]"
             />
+            {error.nameerror && (
+              <h1 className="my-2 text-sm text-red-500">{error.nameerror}</h1>
+            )}
           </div>
           <div>
             <label className="block text-sm text-[var(--color-text)]/70 mb-1">
@@ -66,8 +137,10 @@ export default function Signup() {
               // Input styling using theme variables
               className="w-full p-3 border border-[var(--color-border)] rounded-md bg-[var(--color-input-bg)] text-[var(--color-text)] focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]"
             />
+            {error.normal && (
+              <h1 className="my-2 text-sm text-red-500">{error.normal}</h1>
+            )}
           </div>
-
           {/* Password Input */}
           <div>
             <label className="block text-sm text-[var(--color-text)]/70 mb-1">
@@ -76,10 +149,13 @@ export default function Signup() {
             <input
               type="password"
               placeholder="••••••••"
-              onChange={(e) => setPass(e.target.value)}
+              onChange={(e) => handlePass(e.target.value)}
               // Input styling using theme variables
               className="w-full p-3 border border-[var(--color-border)] rounded-md bg-[var(--color-input-bg)] text-[var(--color-text)] focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]"
             />
+            {error.passerror && (
+              <h1 className="my-2 text-sm text-red-500">{error.passerror}</h1>
+            )}
           </div>
 
           {/* Remember me & Forgot password */}
@@ -145,7 +221,7 @@ export default function Signup() {
           {/* Chat Header */}
           <div className="flex items-center justify-between border-b border-[var(--color-border)] pb-2">
             <div className="flex items-center gap-2 font-semibold text-[var(--color-text)]">
-              LexiPro Chat
+              Cognito Chat
             </div>
             <div className="flex items-center gap-4 text-[var(--color-text)]/70 text-sm">
               <button className="hover:text-[var(--color-primary)] transition">

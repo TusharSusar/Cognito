@@ -20,7 +20,7 @@ export default function Signin() {
   };
 
   return (
-    <div className="relative flex items-center justify-center sm:flex-col md:flex-row min-h-screen bg-[var(--color-bacground)] text-[var(--color-text)]">
+    <div className="relative flex items-center justify-center sm:flex-col md:flex-row h-dvh sm:min-h-screen bg-[var(--color-bacground)] text-[var(--color-text)]">
       <button
         type="button"
         className="absolute top-0 left-0 m-2 p-1 md:m-4 md:p-2 rounded-full cursor-pointer hover:bg-input-bg"
@@ -33,8 +33,8 @@ export default function Signin() {
       <div className="w-full md:w-1/2 max-w-md px-10 sm:px-6 flex flex-col justify-center py-12 md:px-10 md:py-0 md:border-r border-[var(--color-border)]">
         {/* Brand Logo - Updated text color */}
         {/* Original: text-gray-900 | New: text-[var(--color-primary)] */}
-        <div className="flex items-center space-x-2 text-[var(--color-primary)] font-semibold mb-6 text-xl">
-          <span>LexiPro</span>
+        <div className="hidden sm:flex items-center space-x-2 text-[var(--color-primary)] font-semibold mb-6 text-xl">
+          <span>Cognito</span>
         </div>
 
         {/* Headings - Updated text color */}
@@ -137,7 +137,7 @@ export default function Signin() {
           {/* Chat Header */}
           <div className="flex items-center justify-between border-b border-[var(--color-border)] pb-2">
             <div className="flex items-center gap-2 font-semibold text-[var(--color-text)]">
-              LexiPro Chat
+              Cognito Chat
             </div>
             <div className="flex items-center gap-4 text-[var(--color-text)]/70 text-sm">
               <button className="hover:text-[var(--color-primary)] transition">

@@ -226,9 +226,20 @@ function Chatbox() {
     return () => unsubscribe();
   }, [chatid, cid, user]); // <-- DEPENDENCY FIX: Rerun effect when user changes
 
-  const authorizeduser = JSON.parse(sessionStorage.getItem("user"));
-  const name = authorizeduser?.name;
-  const nameInitial = name.charAt(0).toUpperCase();
+  // const [authorizeduser, setAuthorizedUser] = useState(null);
+
+  // useEffect(() => {
+  //   const storedUser = sessionStorage.getItem("user");
+  //   if (storedUser) {
+  //     setAuthorizedUser(JSON.parse(storedUser));
+  //   }
+  // }, []);
+
+  const nameInitial = user?.name?.[0]?.toUpperCase() || "";
+
+  // const authorizeduser = JSON.parse(sessionStorage.getItem("user"));
+  // const name = authorizeduser?.name;
+  // const nameInitial = name.charAt(0).toUpperCase();
 
   return (
     <section
@@ -315,8 +326,8 @@ function Chatbox() {
             )} */}
       {messages.length === 0 && !loading && (
         <div className="default h-full flex items-center justify-center">
-          <h1
-            className="block text-3xl font-semibold text-text select-none md:text-nowrap"
+          <div
+            className="block text-3xl font-semibold text-text select-none  md:flex gap-1 md:text-nowrap"
             style={{
               animation: "fadeInScale 0.8s ease-out forwards",
             }}
@@ -325,8 +336,8 @@ function Chatbox() {
             <span className="text-primary mx-2">
               Hello {user?.name || "User"}
             </span>
-            What's vibe Today?
-          </h1>
+            <h1>What's vibe Today?</h1>
+          </div>
 
           <style>
             {`

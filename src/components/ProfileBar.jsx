@@ -8,9 +8,16 @@ import { NavLink } from "react-router-dom";
 function ProfileBar() {
   const authorizeduser = JSON.parse(sessionStorage.getItem("user"));
 
-  const name = authorizeduser?.name;
+  // const name = authorizeduser?.name || "Guest";
+  // const email = authorizeduser?.email || "guest@example.com";
+  // const nameInitial = name.charAt(0).toUpperCase();
+  
+  //! ✅ Add safe fallbacks
+  const name = authorizeduser?.name || "Guest";
   const email = authorizeduser?.email || "guest@example.com";
-  const nameInitial = name.charAt(0).toUpperCase();
+
+  // ✅ Only call .charAt if name exists
+  const nameInitial = name ? name.charAt(0).toUpperCase() : "?";
 
   const [open, setOpen] = useState(false);
 

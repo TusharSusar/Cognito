@@ -26,14 +26,14 @@ export function HeroSection() {
 
       <div className="max-w-6xl mx-auto text-center relative z-10">
         {/* Main Heading */}
-        <h1 className="mb-6 text-5xl md:text-7xl lg:text-8xl bg-gradient-to-r from-foreground via-primary to-foreground bg-clip-text text-transparent">
+        <h1 className="mb-6 text-5xl md:text-7xl lg:text-8xl bg-gradient-to-r from-foreground via-primary to-foreground bg-clip-text text-transparent select-none">
           Chat Smarter,
           <br />
           Connect Better
         </h1>
 
         {/* Tagline */}
-        <p className="mb-4 text-text/60 text-xl md:text-2xl text-foreground/90 max-w-3xl mx-auto">
+        <p className="mb-4 text-text/90 text-xl md:text-2xl text-foreground/90 max-w-3xl mx-auto">
           Experience the next generation of messaging with AI-powered
           conversations
         </p>

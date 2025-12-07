@@ -4,6 +4,9 @@ import { AuthContext } from "../context/context";
 import { auth } from "../Firebase/firebase";
 import { NavLink, useNavigate } from "react-router-dom";
 import { IoArrowBackCircleOutline } from "react-icons/io5";
+import { BsGoogle } from "react-icons/bs";
+import { FcGoogle } from "react-icons/fc";
+import { FaGithub } from "react-icons/fa";
 
 export default function Signup() {
   const navigate = useNavigate();
@@ -97,14 +100,14 @@ export default function Signup() {
         <IoArrowBackCircleOutline size={25} color="#0CAFFF" />
       </button>
       {/* 2. Left Login Panel - Responsive width and dark theme */}
-      <div className="w-full md:w-1/2 max-w-md px-10 sm:px-6 flex flex-col justify-center py-12 md:px-10 md:py-0 md:border-r border-[var(--color-border)]">
-        <div className="flex items-center space-x-2 text-[var(--color-primary)] font-semibold mb-6 text-xl">
+      <div className="w-full md:w-1/2 max-w-md px-10 sm:px-6 flex flex-col justify-center  md:px-10 md:py-0 md:border-r border-[var(--color-border)]">
+        <div className="flex items-center space-x-2 text-[var(--color-primary)] font-semibold mb-2 text-xl">
           <span>Cognito</span>
         </div>
 
-        <h1 className="text-3xl font-bold mb-2 text-white">
+        {/* <h1 className="text-3xl font-bold mb-2 text-white">
           Welcome Developer,
-        </h1>
+        </h1> */}
         <p className="text-[var(--color-text)]/70 mb-8">
           Create your free account to start your conversations
         </p>
@@ -192,12 +195,11 @@ export default function Signup() {
         {/* Social Sign-in Buttons */}
         <div className="flex flex-col sm:flex-row gap-4">
           <button className="flex items-center gap-2 justify-center w-full border border-[var(--color-border)] rounded-md p-3 text-[var(--color-text)] hover:bg-[var(--color-item-hover)] transition">
-            {/* Replace with your actual icon component */}
-            {/* <HiOutlineMail size={20} /> */} ✉️ Email link
+            {/* <HiOutlineMail size={20} /> */} <FcGoogle /> Google
           </button>
           <button className="flex items-center gap-2 justify-center w-full border border-[var(--color-border)] rounded-md p-3 text-[var(--color-text)] hover:bg-[var(--color-item-hover)] transition">
             {/* Replace with your actual icon component */}
-            {/* <FaGithub size={20} /> */} 💻 GitHub
+            {/* <FaGithub size={20} /> */} <FaGithub /> GitHub
           </button>
         </div>
 

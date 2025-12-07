@@ -7,6 +7,7 @@ import Navbar from "./components/Navbar";
 import { AuthContext } from "./context/context";
 import { ScaleLoader } from "react-spinners";
 import SearchChats from "./components/SearchChats";
+import Loading from "./components/UI/Loading";
 
 const ChatArea = () => {
   const[isActive,setIsActive] = useState(false)
@@ -22,11 +23,7 @@ const ChatArea = () => {
   }
   
   if (!authorizeduser && user === null) {
-    return (
-      <div className="w-full h-screen flex items-center justify-center bg-bacground">
-        <ScaleLoader color="#0CAFFF" size={24} />
-      </div>
-    );
+    return <Loading/>
   }
 
   return (

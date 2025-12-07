@@ -552,9 +552,11 @@ const PricingSection = () => {
                     Upgrade to Pro today and experience faster responses, unlimited messages, and priority support.
                   </p>
                 </div>
-                <button className="px-8 py-4 bg-gradient-to-r from-cyan-400 to-blue-500 text-black font-bold rounded-xl hover:shadow-2xl hover:shadow-cyan-400/50 transition-all duration-300 transform hover:scale-105 active:scale-95 whitespace-nowrap cursor-pointer">
+                <a href="/upgrade">
+                  <button className="px-8 py-4 bg-gradient-to-r from-cyan-400 to-blue-500 text-black font-bold rounded-xl hover:shadow-2xl hover:shadow-cyan-400/50 transition-all duration-300 transform hover:scale-105 active:scale-95 whitespace-nowrap cursor-pointer">
                   Upgrade Now
                 </button>
+                </a>
               </div>
             </div>
           </div>

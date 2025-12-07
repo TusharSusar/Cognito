@@ -4,6 +4,9 @@ import { AuthContext } from "../context/context";
 import { auth } from "../Firebase/firebase";
 import { NavLink, useNavigate } from "react-router-dom";
 import { IoArrowBackCircleOutline } from "react-icons/io5";
+import { Github } from "lucide-react";
+import { FcGoogle } from "react-icons/fc";
+import { FaGithub } from "react-icons/fa";
 
 export default function Signin() {
   const { login } = useContext(AuthContext);
@@ -108,12 +111,10 @@ export default function Signin() {
         {/* Social Sign-in Buttons */}
         <div className="flex flex-col sm:flex-row gap-4">
           <button className="flex items-center gap-2 justify-center w-full border border-[var(--color-border)] rounded-md p-3 text-[var(--color-text)] hover:bg-[var(--color-item-hover)] transition">
-            {/* Replace with your actual icon component */}
-            {/* <HiOutlineMail size={20} /> */} ✉️ Email link
+            <FcGoogle /> Google
           </button>
           <button className="flex items-center gap-2 justify-center w-full border border-[var(--color-border)] rounded-md p-3 text-[var(--color-text)] hover:bg-[var(--color-item-hover)] transition">
-            {/* Replace with your actual icon component */}
-            {/* <FaGithub size={20} /> */} 💻 GitHub
+            <FaGithub /> GitHub
           </button>
         </div>
 

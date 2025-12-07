@@ -262,9 +262,9 @@ function Chatbox() {
               }`}
             >
               <span
-                className={`px-4 py-2 my-1 ${
+                className={`py-2 my-1 ${
                   msg.sender === "user"
-                    ? "user-bubble max-w-2xl wrap-break-word border border-[#00BFFF] font-semibold bg-user-bubble rounded-l-2xl rounded-t-2xl"
+                    ? "user-bubble px-4 max-w-2xl wrap-break-word border border-[#00BFFF] font-semibold bg-user-bubble rounded-l-2xl rounded-t-2xl"
                     : "ai-bubble rounded-r-2xl rounded-t-2xl"
                 }`}
               >

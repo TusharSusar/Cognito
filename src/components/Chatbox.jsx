@@ -237,120 +237,80 @@ function Chatbox() {
 
   const nameInitial = user?.name?.[0]?.toUpperCase() || "";
 
-  // const authorizeduser = JSON.parse(sessionStorage.getItem("user"));
-  // const name = authorizeduser?.name;
-  // const nameInitial = name.charAt(0).toUpperCase();
-
   return (
-    <section
-      className={`w-full flex-1 px-4 sm:px-16 md:px-24 lg:px-40 xl:px-96 overflow-y-auto custom-scrollbar`}
-    >
-      {loading ? (
-        // 🔹 Initial load spinner (before snapshot received)
-        <div className="h-full flex justify-center items-center">
-          <ScaleLoader color="#0CAFFF" size={24} />
-          {/* <PacmanLoader color="#0CAFFF" /> */}
-        </div>
-      ) : (
-        <>
-          {messages?.map((msg) => (
+  <section className="w-full flex-1 px-3 sm:px-4 md:px-6 lg:px-8 overflow-y-auto custom-scrollbar flex flex-col">
+  <div className="w-full max-w-5xl mx-auto py-4 sm:py-6 flex-1 flex flex-col">
+    {loading ? (
+      // 🔹 Initial load spinner
+      <div className="flex-1 flex justify-center items-center">
+        <ScaleLoader color="#0CAFFF" size={24} />
+      </div>
+    ) : messages.length > 0 ? (
+      // 🔹 Messages list
+      <>
+        {messages?.map((msg, index) => {
+          const isAI = msg.sender === "ai";
+          const isLastMessage = index === messages.length - 1;
+
+          return (
             <div
               key={msg.id}
-              className={`text-text text-sm md:text-md flex items-end justify-end ${
-                msg.sender === "ai" &&
-                "ai-bubble my-1 md:my-2 flex justify-start"
+              className={`flex items-end gap-2 sm:gap-3 mb-3 sm:mb-4 md:mb-5 ${
+                isAI ? "justify-start" : "justify-end"
               }`}
             >
+              {/* Message Bubble */}
               <span
-                className={`py-2 my-1 ${
-                  msg.sender === "user"
-                    ? "user-bubble px-4 max-w-2xl wrap-break-word border border-[#00BFFF] font-semibold bg-user-bubble rounded-l-2xl rounded-t-2xl"
-                    : "ai-bubble rounded-r-2xl rounded-t-2xl"
+                className={`px-3 sm:px-4 py-2 sm:py-3 text-sm sm:text-base break-words max-w-xs sm:max-w-sm md:max-w-2xl lg:max-w-3xl ${
+                  isAI
+                    ? "ai-bubble rounded-r-2xl rounded-t-2xl"
+                    : "user-bubble py-2 px-4 text-white border border-[#00BFFF] rounded-l-2xl rounded-t-2xl"
                 }`}
               >
-                {/* {msg.sender === "ai" &&
-                loadAiResponse &&
-                messages[messages.length - 1].id === msg.id ? (
-                  <HashLoader color="#0CAFFF" size={24} />
-                ) : msg.sender === "ai" ? (
-                  <Typewriter text={msg.text} speed={2} onceKey={msg.id} />
+                {isAI ? (
+                  loadAiResponse && isLastMessage ? (
+                    <HashLoader color="#0CAFFF" size={20} />
+                  ) : (
+                    <Typewriter text={msg.text} speed={2} onceKey={msg.id} />
+                  )
                 ) : (
                   msg.text
-                )} */}
-                {msg.sender === "user" ? (
-                  msg.text
-                ) : (
-                  <>
-                    {loadAiResponse && index === messages.length - 1 ? (
-                      <HashLoader color="#0CAFFF" size={24} />
-                    ) : (
-                      <Typewriter text={msg.text} speed={2} onceKey={msg.id} />
-                    )}
-                  </>
                 )}
               </span>
-              <span
-                className={`${
-                  msg.sender === "user" ? "visible" : "hidden"
-                } px-2.5 py-1 m-2 text-black bg-amber-200 rounded-full`}
-              >
-                {nameInitial}
-              </span>
             </div>
-          ))}
-        </>
-      )}
-
-      {/* Default "Hello User" screen */}
-      {/* {chatid === "default" && messages.length === 0 && (
-                <div className="default h-full flex items-center justify-center">
-                    <h1
-                        className="block text-3xl font-semibold text-text select-none md:text-nowrap"
-                        style={{
-                            animation: "fadeInScale 0.8s ease-out forwards",
-                        }}
-                    >
-                        <span className="text-primary mx-2">Hello {user?.name || "User"}</span> What's vibe
-                        Today?
-                    </h1>
-
-                    <style>
-                        {`
-                        @keyframes fadeInScale {
-                          0% { opacity: 0; transform: translateY(20px) scale(0.95); }
-                          100% { opacity: 1; transform: translateY(0) scale(1); }
-                        }
-                    `}
-                    </style>
-                </div>
-            )} */}
-      {messages.length === 0 && !loading && (
-        <div className="default h-full flex items-center justify-center">
-          <div
-            className="block text-3xl font-semibold text-text select-none  md:flex gap-1 md:text-nowrap"
-            style={{
-              animation: "fadeInScale 0.8s ease-out forwards",
-            }}
-          >
-            {/* The welcome message content */}
-            <span className="text-primary mx-2">
+          );
+        })}
+      </>
+    ) : (
+      // 🔹 Welcome screen - centered
+      <div className="flex-1 flex items-center justify-center">
+        <div
+          className="text-center px-4"
+          style={{
+            animation: "fadeInScale 0.8s ease-out forwards",
+          }}
+        >
+          <div className="flex flex-col sm:flex-row gap-2 sm:gap-3 justify-center items-center flex-wrap">
+            <span className="text-2xl sm:text-3xl md:text-4xl font-semibold text-primary">
               Hello {user?.name || "User"}
             </span>
-            <h1>What's vibe Today?</h1>
+            <h1 className="text-2xl sm:text-3xl md:text-4xl font-semibold text-text">
+              What's vibe Today?
+            </h1>
           </div>
-
-          <style>
-            {`
-            @keyframes fadeInScale {
-              0% { opacity: 0; transform: translateY(20px) scale(0.95); }
-              100% { opacity: 1; transform: translateY(0) scale(1); }
-            }
-        `}
-          </style>
         </div>
-      )}
-    </section>
-  );
+
+        <style>{`
+          @keyframes fadeInScale {
+            0% { opacity: 0; transform: translateY(20px) scale(0.95); }
+            100% { opacity: 1; transform: translateY(0) scale(1); }
+          }
+        `}</style>
+      </div>
+    )}
+  </div>
+</section>
+);
 }
 
 export default Chatbox;

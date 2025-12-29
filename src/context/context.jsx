@@ -546,7 +546,7 @@ export const ChatProvider = ({ children }) => {
       const data = await res.json();
       const aiText =
         data.candidates?.[0]?.content?.parts?.[0]?.text || "⚠️ No response";
-      console.log(aiText);
+      // console.log(aiText);
 
       await addDoc(messagesRef, {
         text: aiText,

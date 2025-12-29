@@ -7,6 +7,7 @@ import { IoArrowBackCircleOutline } from "react-icons/io5";
 import { BsGoogle } from "react-icons/bs";
 import { FcGoogle } from "react-icons/fc";
 import { FaGithub } from "react-icons/fa";
+import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 
 export default function Signup() {
   const navigate = useNavigate();
@@ -32,6 +33,8 @@ export default function Signup() {
       setError((prev) => ({ ...prev, passerror: "" }));
     }
   };
+
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -100,15 +103,15 @@ export default function Signup() {
         <IoArrowBackCircleOutline size={25} color="#0CAFFF" />
       </button>
       {/* 2. Left Login Panel - Responsive width and dark theme */}
-      <div className="w-full md:w-1/2 max-w-md px-10 sm:px-6 flex flex-col justify-center  md:px-10 md:py-0 md:border-r border-[var(--color-border)]">
-        <div className="flex items-center space-x-2 text-[var(--color-primary)] font-semibold mb-2 text-xl">
+      <div className="w-full md:w-1/2 max-w-md px-10 pt-10 sm:px-6 flex flex-col justify-center  md:px-10 md:py-0 md:border-r border-[var(--color-border)]">
+        {/* <div className="flex items-center space-x-2 text-[var(--color-primary)] font-semibold mb-2 text-xl">
           <span>Cognito</span>
-        </div>
+        </div> */}
 
         {/* <h1 className="text-3xl font-bold mb-2 text-white">
           Welcome Developer,
         </h1> */}
-        <p className="text-[var(--color-text)]/70 mb-8">
+        <p className="text-2xl text-white mb-4"> {/*[var(--color-text)]/70]*/}
           Create your free account to start your conversations
         </p>
 
@@ -144,22 +147,32 @@ export default function Signup() {
               <h1 className="my-2 text-sm text-red-500">{error.normal}</h1>
             )}
           </div>
-          {/* Password Input */}
-          <div>
-            <label className="block text-sm text-[var(--color-text)]/70 mb-1">
-              Password
-            </label>
-            <input
-              type="password"
-              placeholder="••••••••"
-              onChange={(e) => handlePass(e.target.value)}
-              // Input styling using theme variables
-              className="w-full p-3 border border-[var(--color-border)] rounded-md bg-[var(--color-input-bg)] text-[var(--color-text)] focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]"
-            />
-            {error.passerror && (
-              <h1 className="my-2 text-sm text-red-500">{error.passerror}</h1>
-            )}
-          </div>
+          {/* Password Input with Toggle */}
+            <div>
+              <label className="block text-base text-[var(--color-text)]/70 mb-3 font-medium">
+                Password
+              </label>
+              <div className="relative">
+                <input
+                  type={showPassword ? "text" : "password"}
+                  placeholder="••••••••"
+                  value={pass}
+                  onChange={(e) => handlePass(e.target.value)}
+                  className="w-full px-4 py-3 text-base border border-[var(--color-border)] rounded-lg bg-[var(--color-input-bg)] text-[var(--color-text)] placeholder-[var(--color-text)]/50 focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] transition pr-12"
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute right-4 top-1/2 transform -translate-y-1/2 text-[var(--color-text)]/70 hover:text-[var(--color-text)] transition"
+                >
+                  {showPassword ? (
+                    <AiOutlineEyeInvisible size={22} />
+                  ) : (
+                    <AiOutlineEye size={22} />
+                  )}
+                </button>
+              </div>
+            </div>
 
           {/* Remember me & Forgot password */}
           <div className="flex justify-between items-center text-sm text-[var(--color-text)]/90">

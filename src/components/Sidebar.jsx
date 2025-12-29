@@ -252,6 +252,11 @@ function Sidebar({ isActive, setIsActive, setSearchActive }) {
     const [isCapsuleLoading, setIsCapsuleLoading] = useState(true);
     const navigate = useNavigate();
 
+    const handleChatSelection = (chat) => {
+        handleSelect(chat)
+        setIsActive(false)
+    }
+
     useEffect(() => {
         // 1. EXIT CONDITION: If user is not authenticated, stop and clear chats/loading state.
         if (!user || !user.uid) {
@@ -407,7 +412,7 @@ function Sidebar({ isActive, setIsActive, setSearchActive }) {
                                     <li
                                         key={chat.id}
                                         className="p-1.5 hover:bg-item-hover cursor-pointer rounded-md transition-colors group"
-                                        onClick={() => handleSelect(chat)}
+                                        onClick={()=> handleChatSelection(chat)}
                                     >
                                         <div className="flex items-start justify-between">
                                             <div className="flex-1 min-w-0">

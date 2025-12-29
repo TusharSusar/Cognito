@@ -7,6 +7,7 @@ import { IoArrowBackCircleOutline } from "react-icons/io5";
 import { Github } from "lucide-react";
 import { FcGoogle } from "react-icons/fc";
 import { FaGithub } from "react-icons/fa";
+import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 
 export default function Signin() {
   const { login } = useContext(AuthContext);
@@ -15,6 +16,7 @@ export default function Signin() {
 
   const [email, setEmail] = useState("");
   const [pass, setPass] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -62,19 +64,32 @@ export default function Signin() {
             />
           </div>
 
-          {/* Password Input */}
-          <div>
-            <label className="block text-sm text-[var(--color-text)]/70 mb-1">
-              Password
-            </label>
-            <input
-              type="password"
-              placeholder="••••••••"
-              onChange={(e) => setPass(e.target.value)}
-              // Input styling using theme variables
-              className="w-full p-3 border border-[var(--color-border)] rounded-md bg-[var(--color-input-bg)] text-[var(--color-text)] focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]"
-            />
-          </div>
+          {/* Password Input with Toggle */}
+            <div>
+              <label className="block text-base text-[var(--color-text)]/70 mb-3 font-medium">
+                Password
+              </label>
+              <div className="relative">
+                <input
+                  type={showPassword ? "text" : "password"}
+                  placeholder="••••••••"
+                  value={pass}
+                  onChange={(e) => setPass(e.target.value)}
+                  className="w-full px-4 py-3 text-base border border-[var(--color-border)] rounded-lg bg-[var(--color-input-bg)] text-[var(--color-text)] placeholder-[var(--color-text)]/50 focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] transition pr-12"
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute right-4 top-1/2 transform -translate-y-1/2 text-[var(--color-text)]/70 hover:text-[var(--color-text)] transition"
+                >
+                  {showPassword ? (
+                    <AiOutlineEyeInvisible size={22} />
+                  ) : (
+                    <AiOutlineEye size={22} />
+                  )}
+                </button>
+              </div>
+            </div>
 
           {/* Remember me & Forgot password */}
           <div className="flex justify-between items-center text-sm text-[var(--color-text)]/90">

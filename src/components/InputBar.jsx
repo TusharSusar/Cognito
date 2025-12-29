@@ -30,6 +30,7 @@ function InputBar() {
     if (chatid === "default") {
       // Create new chat with the input message
       await createNewChatByInput(input,handleNavigation,user);
+      handleNavigation()
       setInput("");
     } else {
       // Use existing chat - getResponse handles everything
@@ -42,7 +43,7 @@ function InputBar() {
     <section className="w-full mt-4 flex items-center justify-center">
       <form
         onSubmit={handleSubmit}
-        className="bar w-1/3 min-w-[90%] lg:min-w-2xl px-2.5 py-2 gap-2 flex flex-col border border-secondary rounded-xl"
+        className="bar w-full sm:w-1/3 min-w-[90%] lg:min-w-2xl px-2.5 py-2 gap-2 flex flex-col border border-secondary rounded-xl"
       >
         <div className="input flex-1">
           <input

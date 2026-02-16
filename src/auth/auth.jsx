@@ -25,7 +25,7 @@ export function PublicRoute() {
 
   if (loading)
     return (
-      <div className="h-full flex justify-center items-center">
+      <div className="w-full h-screen flex justify-center items-center bg-bacground">
         <HashLoader color="#0CAFFF" size={24} />
         {/* <PacmanLoader color="#0CAFFF" /> */}
       </div>

@@ -15,14 +15,14 @@ const ChatArea = () => {
   const { user } = useContext(AuthContext);
 
   // safely parse session storage
-  let authorizeduser = null;
+  let authorizeduser = undefined;
   try {
     authorizeduser = JSON.parse(sessionStorage.getItem("user"));
   } catch (err) {
-    authorizeduser = null;
+    authorizeduser = undefined;
   }
   
-  if (!authorizeduser && user === null) {
+  if (!authorizeduser && user === undefined) {
     return <Loading/>
   }
 

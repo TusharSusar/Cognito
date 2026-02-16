@@ -235,7 +235,7 @@ function Chatbox() {
   //   }
   // }, []);
 
-  const nameInitial = user?.name?.[0]?.toUpperCase() || "";
+  // const nameInitial = user?.name?.[0]?.toUpperCase() || "";
 
   return (
   <section className="w-full flex-1 px-3 sm:px-4 md:px-6 lg:px-8 overflow-y-auto custom-scrollbar flex flex-col">
